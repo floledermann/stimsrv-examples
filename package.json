@@ -1,0 +1,15 @@
+{
+  "name": "stimsrv-examples",
+  "version": "0.0.1",
+  "author": "Florian Ledermann <florian.ledermann@tuwien.ac.at>",
+  "license": "UNLICENSED",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "stimsrv": "file:../stimsrv",
+    "another-dimension": "file:../another-dimension"
+  }
+}
