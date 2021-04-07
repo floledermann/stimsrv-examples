@@ -5,7 +5,7 @@ const loop = require("stimsrv/src/tasks/loop.js");
 const sequence = require("stimsrv/src/controller/sequence.js");
 const count = require("stimsrv/src/controller/count.js");
 
-const desktop = require("./config-desktop.js");
+const desktop = require("../../config-desktop.js");
 
 module.exports = {
   
