@@ -6,7 +6,7 @@ module.exports = {
       name: "Main PC",
       id: "main",
       ip: ".",
-      platform: "browser", // browser-old, browser-nojs, pdf, png
+      platform: "browser",
       screens: [
         {
           id: "main",
@@ -45,7 +45,11 @@ module.exports = {
   ],
   
   storage: filestorage({
+    // destination is always relative to experiment file
     destination: "./data",
+    // the next line does not work, as the experiment code is run on client and server
+    // TODO: provide callback in filestorage, where this can be done
+    //destination: path.join(__dirname, "data"),
     format: "json"
   })
 

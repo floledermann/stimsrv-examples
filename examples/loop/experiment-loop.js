@@ -17,7 +17,7 @@ module.exports = {
   
   context: {
     // the context property "message" will alternate between these two values with each participant
-    message: sequence.loop(["Odd number participant", "Even number participant"])
+    message: sequence.loop(["Odd number of experiment runs in this session", "Even number of experiment runs in this session"])
   },
   
   tasks: [
