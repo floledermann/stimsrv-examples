@@ -1,6 +1,8 @@
 ## stimsrv Examples
 
-This repository contains some examples for stimsrv.
+This repository contains some examples for [stimsrv](https://github.com/floledermann/stimsrv).
+
+stimsrv (***stim***ulus ***s***e***rv***er) is a system for running browser-based psychological experiments and user studies.
 
 ### Running the examples
 
@@ -25,3 +27,10 @@ The `--open` option should launch a browser window showing the experiment start 
 You can end stimsrv by pressing Ctrl-C (repeatedly) in the console window.
 
 Make sure to always only run one experiment at a time, otherwise stimsrv will crash with a "port in use" error message.
+
+
+### Examples
+
+#### /examples/loop/
+
+Example for (nested) loops and dynamic context.
