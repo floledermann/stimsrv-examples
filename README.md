@@ -5,7 +5,7 @@
 
 This repository contains some examples for [stimsrv](https://github.com/floledermann/stimsrv).
 
-stimsrv (***stim***ulus ***s***e***rv***er) is a system for running browser-based psychological experiments and user studies.
+**`stimsrv`** (***stim***ulus ***s***e***rv***er) is a system for running browser-based psychological experiments and user studies.
 
 ### Running the examples
 
