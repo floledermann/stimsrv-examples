@@ -1,5 +1,8 @@
 ## stimsrv Examples
 
+!! | This is alpha software, not ready to use. | !!
+---|-------------------------------------------|---
+
 This repository contains some examples for [stimsrv](https://github.com/floledermann/stimsrv).
 
 stimsrv (***stim***ulus ***s***e***rv***er) is a system for running browser-based psychological experiments and user studies.
@@ -33,4 +36,8 @@ Make sure to always only run one experiment at a time, otherwise stimsrv will cr
 
 #### /examples/loop/
 
-Example for (nested) loops and dynamic context.
+Example experiment showing (nested) loops and dynamic context.
+
+#### /examples/minimal/
+
+Minimal experiment file, showing only a "hello world" message.
