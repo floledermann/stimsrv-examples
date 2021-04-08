@@ -6,13 +6,13 @@ stimsrv (***stim***ulus ***s***e***rv***er) is a system for running browser-base
 
 ### Running the examples
 
-Clone the repository, and run
+Clone/[download](https://github.com/floledermann/stimsrv-examples/archive/refs/heads/main.zip) the repository, and run
 
 ```
 npm install
 ```
 
-(or double-click `setup.bat` on Windows).
+in the stimsrv-examples directory (or double-click `setup.bat` on Windows).
 
 Then, in each example directory, you can run
 
@@ -22,9 +22,9 @@ npx stimsrv --open <example-file>
 
 On Windows, you can also drag the example file onto the provided `launch.bat` file, or double click `launch.bat` to launch the first example in the directory.
 
-The `--open` option should launch a browser window showing the experiment start page.
+The `--open` option will launch a browser window showing the experiment start page.
 
-You can end stimsrv by pressing Ctrl-C (repeatedly) in the console window.
+You can end stimsrv by pressing `Ctrl-C` (repeatedly) in the console window.
 
 Make sure to always only run one experiment at a time, otherwise stimsrv will crash with a "port in use" error message.
 
