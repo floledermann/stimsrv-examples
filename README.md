@@ -34,10 +34,12 @@ Make sure to always only run one experiment at a time, otherwise stimsrv will cr
 
 ### Examples
 
+#### /examples/minimal/
+
+Minimal experiment file, showing only a "hello world" message.
+
 #### /examples/loop/
 
 Example experiment showing (nested) loops and dynamic context.
 
-#### /examples/minimal/
 
-Minimal experiment file, showing only a "hello world" message.

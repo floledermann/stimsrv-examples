@@ -8,7 +8,7 @@ module.exports = {
   tasks: [
   
     pause({
-      message: "Hello stimsrv",
+      message: "Hello from stimsrv",
       store: true  // by default, the pause task is not stored - store it so that we have some data
     })
     
