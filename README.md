@@ -27,7 +27,7 @@ On Windows, you can also drag the example file onto the provided `launch.bat` fi
 
 The `--open` option will launch a browser window showing the experiment start page. Omit `--open` if you only want to start the server and want to start the client(s) manually.
 
-You can end stimsrv by pressing `Ctrl-C` (repeatedly) in the console window.
+You can end stimsrv by pressing `Ctrl-C` (repeatedly) in the console window, or by closing the window.
 
 Make sure to always only run one experiment at a time, otherwise stimsrv will crash with a "port in use" error message.
 

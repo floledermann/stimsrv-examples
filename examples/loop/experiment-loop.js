@@ -5,19 +5,13 @@ const loop = require("stimsrv/src/tasks/loop.js");
 const sequence = require("stimsrv/src/controller/sequence.js");
 const count = require("stimsrv/src/controller/count.js");
 
-const desktop = require("../../config-desktop.js");
-
 module.exports = {
   
   name: "Loop Example",
   
-  devices: desktop.devices,
-  roles: desktop.roles,
-  storage: desktop.storage,
-  
   context: {
     // the context property "message" will alternate between these two values with each participant
-    message: sequence.loop(["Odd number of experiment runs in this session", "Even number of experiment runs in this session"])
+    message: sequence.loop(["Odd number of experiments run in this session", "Even number of experiments run in this session"])
   },
   
   tasks: [
