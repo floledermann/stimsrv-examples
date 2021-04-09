@@ -1,3 +1,5 @@
+@echo off
+
 rem *******************************************************************
 rem ** Helper script to launch stimsrv experiments on Windows        **
 rem **                                                               **
@@ -7,7 +9,6 @@ rem ** Double-clicking this file will start the first file           **
 rem **   with "experiment" in its name.                              **
 rem *******************************************************************
 
-@echo off
 echo. 
 
 setlocal
