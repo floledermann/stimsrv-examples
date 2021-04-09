@@ -1,9 +1,9 @@
 
-const pause = require("stimsrv/src/tasks/pause.js");
-const loop = require("stimsrv/src/tasks/loop.js");   
+const pause = require("stimsrv/task/pause");
+const loop = require("stimsrv/task/loop");   
 
-const sequence = require("stimsrv/src/controller/sequence.js");
-const count = require("stimsrv/src/controller/count.js");
+const sequence = require("stimsrv/controller/sequence");
+const count = require("stimsrv/controller/count");
 
 module.exports = {
   

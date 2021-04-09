@@ -1,5 +1,5 @@
 
-const pause = require("stimsrv/src/tasks/pause.js");
+const pause = require("stimsrv/task/pause");
 
 module.exports = {
   
