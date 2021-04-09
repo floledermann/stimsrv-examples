@@ -1,3 +1,12 @@
+rem *******************************************************************
+rem ** Helper script to launch stimsrv experiments on Windows        **
+rem **                                                               **
+rem ** Experiment files dropped onto this .bat file will be started. **
+rem **                                                               **
+rem ** Double-clicking this file will start the first file           **
+rem **   with "experiment" in its name.                              **
+rem *******************************************************************
+
 @echo off
 echo. 
 
