@@ -25,20 +25,20 @@ npx stimsrv --open <example-file>
 
 On Windows, you can also drag the example file onto the provided `launch.bat` file, or double click `launch.bat` to launch the first example in the directory.
 
-The `--open` option will launch a browser window showing the experiment start page.
+The `--open` option will launch a browser window showing the experiment start page. Omit `--open` if you only want to start the server and want to start the client(s) manually.
 
 You can end stimsrv by pressing `Ctrl-C` (repeatedly) in the console window.
 
 Make sure to always only run one experiment at a time, otherwise stimsrv will crash with a "port in use" error message.
 
 
-### Examples
+### Examples in this repository
 
-#### /examples/minimal/
+#### [/examples/minimal/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/minimal)
 
 Minimal experiment file, showing only a "hello world" message.
 
-#### /examples/loop/
+#### [/examples/loop/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/loop)
 
 Example experiment showing (nested) loops and dynamic context.
 
