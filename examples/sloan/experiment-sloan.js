@@ -9,11 +9,11 @@ module.exports = {
   name: "A small experiment to test visual acuity",
     
   tasks: [
-  /*
+  
     pause({
       message: "Press 'Continue' when you are ready to start the experiment"
     }),
-    */
+
     sloan({
       backgroundIntensity: 1,      // white background
       foregroundIntensity: 0,      // black foreground
@@ -22,11 +22,11 @@ module.exports = {
           startValue: "5mm",       //   larger / smaller than the previous one
           stepSize: 1.2,
           stepType: "multiply",
-          minReversals: 0,
+          minReversals: 2,
           minTrials: 2
       }),
       // add the resulting logMAR score to the context
-      nextContext: trials => ({logMAR: sloan.logMAR(trials)})
+      nextContext: (context, results) => ({logMAR: sloan.logMAR(results)})
     }),
     
     pause({
