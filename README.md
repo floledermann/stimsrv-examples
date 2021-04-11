@@ -38,6 +38,10 @@ Make sure to always only run one experiment at a time, otherwise stimsrv will cr
 
 Minimal experiment file, showing only a "hello world" message.
 
+#### [/examples/sloan/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/sloan)
+
+Estimating visual acuity using [Sloan letters](https://en.wikipedia.org/wiki/Sloan_letters).
+
 #### [/examples/loop/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/loop)
 
 Example experiment showing (nested) loops and dynamic context.
