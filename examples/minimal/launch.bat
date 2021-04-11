@@ -13,6 +13,10 @@ echo.
 
 setlocal
 
+set command=npx stimsrv --open
+
+if defined STIMSRV_DEBUG (set command=node --inspect-brk ..\..\node_modules\stimsrv)
+
 set filename=%1
 
 set EXPERIMENT_PATTERN=*experiment*.js
@@ -34,8 +38,7 @@ exit /b 1
 echo Launching %filename% ...
 echo.
 
-set command=npx stimsrv --open %filename%
-echo %command%
-call %command%
+echo %command% %filename%
+call %command% %filename%
 
 pause

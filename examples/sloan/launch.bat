@@ -15,7 +15,7 @@ setlocal
 
 set command=npx stimsrv --open
 
-if defined STIMSRV_DEBUG (set command=node --inspect-brk ..\..\..\stimsrv\src\server\server.js)
+if defined STIMSRV_DEBUG (set command=node --inspect-brk ..\..\node_modules\stimsrv)
 
 set filename=%1
 
