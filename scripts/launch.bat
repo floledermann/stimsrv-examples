@@ -15,7 +15,23 @@ setlocal
 
 set command=npx stimsrv --open
 
-if defined STIMSRV_DEBUG (set command=node --inspect-brk ..\node_modules\stimsrv)
+rem npx doesn't support passing params to node on Windows, so we have to find stimsrv manually
+if defined STIMSRV_DEBUG (
+  if exist node_modules\stimsrv\ (
+    set command=node --inspect-brk node_modules\stimsrv
+  ) else (
+    if exist ..\node_modules\stimsrv\ (
+      set command=node --inspect-brk ..\node_modules\stimsrv
+    ) else (
+      if exist ..\..\node_modules\stimsrv\ (
+        set command=node --inspect-brk ..\..\node_modules\stimsrv
+      ) else (
+        echo "stimsrv module not found!"
+        exit /b 1
+      )
+    )
+  )
+)
 
 set filename=%1
 
