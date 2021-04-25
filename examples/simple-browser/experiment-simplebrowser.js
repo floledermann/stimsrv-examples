@@ -10,8 +10,8 @@ module.exports = {
       id: "dev"
     },
     {
-      id: "oldbrowser",
-      type: "browser-simple",
+      id: "old",
+      client: "browser-simple",
       refreshTime: 5,
       resolution: "hd",
       pixeldensity: 91,
