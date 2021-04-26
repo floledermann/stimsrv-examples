@@ -42,6 +42,10 @@ Minimal experiment file, showing only a "hello world" message.
 
 Estimating visual acuity using [Sloan letters](https://en.wikipedia.org/wiki/Sloan_letters).
 
+#### [/examples/image/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/image)
+
+Showing a series of images as stimuli.
+
 #### [/examples/loop/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/loop)
 
 Example experiment showing (nested) loops and dynamic context.
