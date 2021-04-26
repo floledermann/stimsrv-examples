@@ -1,7 +1,7 @@
 ## stimsrv Examples
 
-!! | This is alpha software, not ready to use. | !!
----|-------------------------------------------|---
+! | This is alpha version software - everything may still change without prior notice | !
+--|-----------------------------------------------------------------------------------|--
 
 This repository contains some examples for [stimsrv](https://github.com/floledermann/stimsrv).
 
@@ -49,5 +49,13 @@ Showing a series of images as stimuli.
 #### [/examples/loop/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/loop)
 
 Example experiment showing (nested) loops and dynamic context.
+
+----
+
+### Further examples in separate repositories
+
+- ["find on map" experiment]()https://github.com/floledermann/stimsrv-experiment-findonmap
+- [Wizard of Oz wayfinding]()https://github.com/floledermann/stimsrv-experiment-wayfinding
+
 
 
