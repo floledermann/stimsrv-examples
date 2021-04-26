@@ -1,11 +1,20 @@
 
 const pause = require("stimsrv/task/pause");
+const sloan = require("stimsrv/task/sloan");
+
+const staircase = require("stimsrv/controller/staircase");
+
+// IMPORTANT: this requires that you connect from a second device/browser
+// using clientId "old" in order to get the "browser-simple" client
 
 module.exports = {
   
-  name: "Example for including old browsers for stimulus display",
+  name: "Example for running stimulus display on old/simple browsers ",
   
   devices: [
+    {
+      id: "anyone"
+    },
     {
       id: "dev"
     },
@@ -24,13 +33,13 @@ module.exports = {
       role: "display-oldbrowser",
       description: "Stimulus display on old browser",
       interfaces: ["display"],
-      devices: ["dev","oldbrowser"]
+      devices: ["anyone","dev","oldbrowser"]
     },
     {
       role: "response",
       description: "Response",
       interfaces: ["response"],
-      devices: ["dev"]
+      devices: ["anyone","dev"]
     },
   ],
     
