@@ -15,7 +15,7 @@ Clone/[download](https://github.com/floledermann/stimsrv-examples/archive/refs/h
 npm install
 ```
 
-in the stimsrv-examples directory (or double-click `setup.bat` on Windows).
+in the stimsrv-examples directory (or double-click `install.bat` on Windows).
 
 Then, in each example directory, you can run
 
