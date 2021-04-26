@@ -1,8 +1,5 @@
 ## stimsrv Examples
 
-! | This is alpha version software - everything may still change without prior notice | !
---|-----------------------------------------------------------------------------------|--
-
 This repository contains some examples for [stimsrv](https://github.com/floledermann/stimsrv).
 
 **`stimsrv`** (***stim***ulus ***s***e***rv***er) is a system for running browser-based psychological experiments and user studies.
@@ -54,8 +51,8 @@ Example experiment showing (nested) loops and dynamic context.
 
 ### Further examples in separate repositories
 
-- ["find on map" experiment]()https://github.com/floledermann/stimsrv-experiment-findonmap
-- [Wizard of Oz wayfinding]()https://github.com/floledermann/stimsrv-experiment-wayfinding
+- ["find on map" experiment](https://github.com/floledermann/stimsrv-experiment-findonmap)
+- [Wizard of Oz wayfinding](https://github.com/floledermann/stimsrv-experiment-wayfinding)
 
 
 
