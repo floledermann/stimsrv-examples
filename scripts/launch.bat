@@ -15,6 +15,12 @@ setlocal
 
 set command=npx stimsrv --open
 
+rem monitor mode
+if defined STIMSRV_MONITOR (
+  set command=npx nodemon --watch *.js --watch ../../node_modules/stimsrv/src --exec "npx" stimsrv
+)
+
+rem debugging mode
 rem npx doesn't support passing params to node on Windows, so we have to find stimsrv manually
 if defined STIMSRV_DEBUG (
   if exist node_modules\stimsrv\ (
