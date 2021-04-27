@@ -1,8 +1,9 @@
 
 const pause = require("stimsrv/task/pause");
 const sloan = require("stimsrv/task/sloan");
+const text = require("./text.js");
 
-const staircase = require("stimsrv/controller/staircase");
+const sequence = require("stimsrv/controller/sequence");
 
 // IMPORTANT: this requires that you connect from a second device/browser
 // using clientId "old" in order to get the "browser-simple" client
@@ -33,7 +34,7 @@ module.exports = {
       role: "display-oldbrowser",
       description: "Stimulus display on old browser",
       interfaces: ["display"],
-      devices: ["anyone","dev","oldbrowser"]
+      devices: ["anyone","dev","old"]
     },
     {
       role: "response",
@@ -44,23 +45,35 @@ module.exports = {
   ],
     
   tasks: [
-  
+/*
     pause({
       message: "Hello from stimsrv",
     }),
-
+*/
+/*
     sloan({
-      backgroundIntensity: 1,      // white background
-      foregroundIntensity: 0,      // black foreground
-      size:                        // size will be changed using the staircase method 
-        staircase({                //   with 5 reversals, where each step will be 1.2 times
-          startValue: "5mm",       //   larger / smaller than the previous one
-          stepSize: 1.2,
-          stepType: "multiply",
-          minReversals: 2,
-          minTrials: 2
-      }),
+      backgroundIntensity: 1,
+      foregroundIntensity: 0,
+      size: sequence(["5mm","3mm","2mm","1mm"])
     }), 
+    */
+    text({
+      parameters: {
+        fontFamily: "Orelega One",
+        fontSize: sequence(["10mm"])
+      },
+      fonts: [
+        {
+          family: "Orelega One",
+          resource: "font/OrelegaOne-Regular.ttf"
+        }
+      ]
+    }), 
+    
+    pause({
+      message: "Restart...",
+    }),
+
     
   ]
 }
