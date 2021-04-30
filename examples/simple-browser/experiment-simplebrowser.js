@@ -45,29 +45,18 @@ module.exports = {
   ],
     
   tasks: [
-/*
-    pause({
-      message: "Hello from stimsrv",
-    }),
-*/
-/*
-    sloan({
-      backgroundIntensity: 1,
-      foregroundIntensity: 0,
-      size: sequence(["5mm","3mm","2mm","1mm"])
-    }), 
-    */
+
     text({
       parameters: {
+        text: "ABCabc",
+        //angle: 15,
         fontFamily: "Orelega One",
-        fontSize: sequence(["10mm"])
+        fontSize: sequence(["10mm","15mm"])
       },
-      fonts: [
-        {
+      fonts: [{
           family: "Orelega One",
-          resource: "font/OrelegaOne-Regular.ttf"
-        }
-      ]
+          resource: "OrelegaOne-Regular.ttf"
+      }]
     }), 
     
     pause({
