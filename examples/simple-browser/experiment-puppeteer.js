@@ -5,19 +5,12 @@ const text = require("./text.js");
 
 const sequence = require("stimsrv/controller/sequence");
 
-const puppeteerClient = require("stimsrv-client-puppeteer");
-
 // IMPORTANT: this requires that you connect from a second device/browser
 // using clientId "old" in order to get the "browser-simple" client
 
 module.exports = {
   
   name: "Example for running stimulus display on old/simple browsers ",
-  
-  // register puppeteer client as an additional client
-  clients: {
-    "browser-simple": puppeteerClient()
-  },
   
   devices: [
     {
