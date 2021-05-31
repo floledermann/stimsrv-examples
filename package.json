@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "nodemon": "2.0.7",
-    "stimsrv": "0.0.1"
+    "stimsrv": "0.0.2",
+    "stimsrv-client-puppeteer": "0.0.1"
   }
 }

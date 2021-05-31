@@ -50,12 +50,12 @@ module.exports = {
       parameters: {
         text: "ABCabc",
         //angle: 15,
-        fontFamily: "Orelega One",
+        fontFamily: "Roboto",
         fontSize: sequence(["10mm","15mm"])
       },
       fonts: [{
-          family: "Orelega One",
-          resource: "OrelegaOne-Regular.ttf"
+          family: "Roboto",
+          resource: "Roboto-Regular.ttf"
       }]
     }), 
     
