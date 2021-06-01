@@ -12,18 +12,32 @@ module.exports = {
   
   name: "Example for running stimulus display on old/simple browsers ",
   
+  // Point to the server config which contains the client definitions.
+  // This is a hack to keep the server code separate from the client's, and will
+  // change with the next major release.
+  serverConfigFile: "stimsrv-config.js",
+  
   devices: [
     {
-      id: "anyone"
-    },
-    {
-      id: "dev"
+      id: "dev",
+      resolution: "hd",
+      imageSize: "600x600",
+      pixeldensity: 91,
+      viewingdistance: 600,
     },
     {
       id: "old",
       client: "browser-simple",
-      refreshTime: 5,
       resolution: "hd",
+      imageSize: "600x600",
+      pixeldensity: 91,
+      viewingdistance: 600,
+    },
+    {
+      id: "old2",
+      client: "browser-canvas",
+      resolution: "hd",
+      imageSize: "600x600",
       pixeldensity: 91,
       viewingdistance: 600,
     }
