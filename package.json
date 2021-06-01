@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "nodemon": "2.0.7",
-    "stimsrv": "0.0.3",
-    "stimsrv-client-puppeteer": "0.0.1",
-    "stimsrv-client-servercanvas": "0.0.1"
+    "stimsrv": "0.0.4",
+    "stimsrv-client-puppeteer": "0.0.3",
+    "stimsrv-client-servercanvas": "0.0.2"
   }
 }
