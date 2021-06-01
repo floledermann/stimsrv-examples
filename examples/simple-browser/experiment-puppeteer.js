@@ -12,6 +12,11 @@ module.exports = {
   
   name: "Example for running stimulus display on old/simple browsers ",
   
+  // point to the server config which contains the client definitions
+  // this is a hack to keep the server code separate from the client's, and will
+  // change with the next major release.
+  serverConfigFile: "stimsrv-config.js",
+  
   devices: [
     {
       id: "anyone"
@@ -51,12 +56,12 @@ module.exports = {
       parameters: {
         text: "ABCabc",
         //angle: 15,
-        fontFamily: "Roboto",
+        fontFamily: "Orelega One",
         fontSize: sequence(["10mm","15mm"])
       },
       fonts: [{
-          family: "Roboto",
-          resource: "Roboto-Regular.ttf"
+          family: "Orelega One",
+          resource: "OrelegaOne-Regular.ttf"
       }]
     }), 
     
