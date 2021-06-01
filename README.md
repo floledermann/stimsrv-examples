@@ -20,7 +20,7 @@ Then, in each example directory, you can run
 npx stimsrv --open <example-file>
 ```
 
-On Windows, you can also drag the example file onto the provided `launch.bat` file, or double click `launch.bat` to launch the first example in the directory.
+On Windows, you can also double click the provided `launch.bat` to launch the first experiment in a directory, or drag the desired experiment file onto `launch.bat`.
 
 The `--open` option will launch a browser window showing the experiment start page. Omit `--open` if you only want to start the server and want to start the client(s) manually.
 
@@ -35,7 +35,7 @@ Make sure to always only run one experiment at a time, otherwise stimsrv will cr
 
 Minimal experiment file, showing only a "hello world" message.
 
-#### [/examples/sloan/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/sloan)
+#### [/examples/acuity-sloan/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/sloan)
 
 Estimating visual acuity using [Sloan letters](https://en.wikipedia.org/wiki/Sloan_letters).
 
@@ -46,6 +46,10 @@ Showing a series of images as stimuli.
 #### [/examples/loop/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/loop)
 
 Example experiment showing (nested) loops and dynamic context.
+
+#### [/examples/map-sync/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/map-sync)
+
+Synchronizing interaction with a web map across devices.
 
 ----
 
