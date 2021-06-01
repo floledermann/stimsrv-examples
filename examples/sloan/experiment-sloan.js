@@ -22,8 +22,7 @@ module.exports = {
           startValue: "5mm",       //   larger / smaller than the previous one
           stepSize: 1.2,
           stepType: "multiply",
-          minReversals: 2,
-          minTrials: 2
+          minReversals: 5
       }),
       // add the resulting logMAR score to the context
       nextContext: (context, results) => ({logMAR: sloan.logMAR(results)})
