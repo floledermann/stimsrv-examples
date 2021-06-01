@@ -22,7 +22,7 @@ npx stimsrv --open <example-file>
 
 On Windows, you can also double click the provided `launch.bat` to launch the first experiment in a directory, or drag the desired experiment file onto `launch.bat`.
 
-The `--open` option will launch a browser window showing the experiment start page. Omit `--open` if you only want to start the server and want to start the client(s) manually.
+The `--open` option will open a browser window showing the experiment start page. Omit `--open` if you only want to start the server and want to start the client(s) manually.
 
 You can end stimsrv by pressing `Ctrl-C` (repeatedly) in the console window, or by closing the window.
 
