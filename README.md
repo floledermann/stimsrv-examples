@@ -35,6 +35,10 @@ Make sure to always only run one experiment at a time, otherwise stimsrv will cr
 
 Minimal experiment file, showing only a "hello world" message.
 
+#### [/examples/custom-task/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/custom-task)
+
+Creating a custom task from scratch.
+
 #### [/examples/acuity-sloan/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/sloan)
 
 Estimating visual acuity using [Sloan letters](https://en.wikipedia.org/wiki/Sloan_letters).

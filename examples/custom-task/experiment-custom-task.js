@@ -99,9 +99,10 @@ module.exports = {
     
     
     
-    // you can inspect the pause task at 
+    // Inspect the pause task at 
     // https://github.com/floledermann/stimsrv/blob/main/src/task/pause.js
     // to see how a reusable task can be implemented using above principles
+    // and some helper functions 
     pause({
       message: "Experiment ended. Press 'Continue' to restart."
     })
