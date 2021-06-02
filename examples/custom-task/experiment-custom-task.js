@@ -19,8 +19,9 @@ module.exports = {
     
   tasks: [
   
+    // ------------------------------------ TASK 1 ------------------------------------
     // Let's make a custom task from scratch, without any help from library functions!
-    // A stimsrv task is simply a plain JS object adhering to the following contract
+    // A stimsrv task is simply a plain JS object adhering to a simple structure.
     // On the top level, there are 3 entries: name, ui, controller
     {
       // *name* is simply the name/id of the task (will be used in saved data, for example)
@@ -31,14 +32,14 @@ module.exports = {
       ui: context => {
         let textEl = null;
         let buttonEl = null;
-        // The object returned by task.ui() has to have only an "interfaces" entry
+        // The object returned by task.ui() has to have an "interfaces" entry
         return {
           interfaces: {
             // The entries in the interfaces object are matched up with the interfaces 
             // defined by the client role (defined above at the experiment level).
-            // First ui component, for displaying the stimulus:
+            // By convention, the "display" interface is used for displaying the stimulus:
             "display": {
-              // Each entry needs two functions: initialize() and render().
+              // Each inerfaces entry needs two functions: initialize() and render().
               // initialize() gets passed the parent element and the stimsrv client,
               // and sets up ui elements and interaction.
               initialize: (parent, stimsrv) => {
@@ -52,7 +53,8 @@ module.exports = {
                 textEl.innerHTML += "<br>" + condition.text;
               }
             },
-            // Second ui component, for entering the user response:
+            // Second ui component.
+            // By convention, the "response" interface is used for entering user responses:
             "response": {
               initialize: (parent, stimsrv) => {
                 // Add a button
@@ -76,7 +78,7 @@ module.exports = {
           }
         }
       },
-      // The "controller" part runs on the server and coordinates the flow of the experiment.
+      // The "controller" part is run on the server and coordinates the flow of the experiment.
       // *controller* is also a function that receives the current context and returns an object.
       controller: context => ({
         // nextCondition() is the only mandatory entry in the controller object.
@@ -90,15 +92,69 @@ module.exports = {
               count: conditions.length + 1
             };
           }
-          // End of task
+          // Return null when end of task has been reached
           return null;
         }
       })
     },
+    // ---------------------------------- END TASK 1 ----------------------------------
     
     
     
+    // ------------------------------------ TASK 2 ------------------------------------
+    // The same task, without comments to see the structure more clearly
+    {
+      name: "task2",
+      ui: context => {
+        let textEl = null;
+        let buttonEl = null;
+        return {
+          interfaces: {
+            "display": {
+              initialize: (parent, stimsrv) => {
+                textEl = parent.ownerDocument.createElement("p");
+                textEl.innerHTML = "Hello, stimsrv! Task 2";
+                parent.appendChild(textEl);
+              },
+              render: condition => {
+                textEl.innerHTML += "<br>" + condition.text;
+              }
+            },
+            "response": {
+              initialize: (parent, stimsrv) => {
+                buttonEl = parent.ownerDocument.createElement("button");
+                buttonEl.textContent = "Next";
+                parent.appendChild(buttonEl);
+                buttonEl.addEventListener("click", () => {
+                  stimsrv.response({});
+                });
+              },
+              render: condition => {
+                if (condition.count == 3) {
+                  buttonEl.textContent = "Finish";
+                }
+              }
+            }
+          }
+        }
+      },
+      controller: context => ({
+        nextCondition: (lastCondition, lastResponse, conditions, responses) => {
+          if (conditions.length < 3) {
+            return {
+              text: "Condition " + (conditions.length + 1),
+              count: conditions.length + 1
+            };
+          }
+          return null;
+        }
+      })
+    },
+    // ---------------------------------- END TASK 2 ----------------------------------
     
+    
+    
+    // ------------------------------------ TASK 3 ------------------------------------
     // Inspect the pause task at 
     // https://github.com/floledermann/stimsrv/blob/main/src/task/pause.js
     // to see how a reusable task can be implemented using above principles
@@ -106,6 +162,7 @@ module.exports = {
     pause({
       message: "Experiment ended. Press 'Continue' to restart."
     })
+    // ---------------------------------- END TASK 3 ----------------------------------
     
   ]
 }
