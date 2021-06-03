@@ -1,3 +1,3 @@
-@echo off
+npx stimsrv --open experiment-loop.js
 
-call ..\..\scripts\launch.bat %1
+pause
