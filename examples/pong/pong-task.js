@@ -58,29 +58,36 @@ function pongPlayer(config, context) {
       canvas.style.width = parent.clientWidth + "px";
       canvas.style.height = parent.clientHeight + "px";
 
-      let scaleFactor = height / (edgeSize + 2 * edgeMargin);
-      xfView = new DOMMatrix();
-      xfView.translateSelf(width / 2, height / 2);
-      xfView.scaleSelf(scaleFactor, scaleFactor);
-
       parent.appendChild(canvas);
       
       ctx = canvas.getContext("2d");
       
       canvas.addEventListener("mousemove", pos);
+      canvas.addEventListener("touchmove", pos);
       
       let lastMoveTime = 0;
       
       function pos(event) {
-        let y = event.offsetY;
-        y = new DOMPoint(0, y).matrixTransform(xfView.inverse()).y;
-        let extent = (edgeSize - paddleSize)/2
-        y = Math.min(extent, Math.max(-extent, y));
-        paddlePos[side] = y;
-        
-        if (Date.now() - lastMoveTime > 20) {
-          stimsrv.event("paddle", {clientNum: clientNum, pos: Math.trunc(paddlePos[side]), side: side});
-          lastMoveTime = Date.now();
+        let y = null;
+        if (event.touches) {
+          if (event.touches.length == 1) {
+            var rect = canvas.getBoundingClientRect();
+            y = event.touches[0].pageY - rect.top;
+          }
+        }
+        else {
+          y = event.offsetY;
+        }
+        if (y !== null) {
+          y = new DOMPoint(0, y).matrixTransform(xfView.inverse()).y;
+          let extent = (edgeSize - paddleSize)/2
+          y = Math.min(extent, Math.max(-extent, y));
+          paddlePos[side] = y;
+          
+          if (Date.now() - lastMoveTime > 20) {
+            stimsrv.event("paddle", {clientNum: clientNum, pos: Math.trunc(paddlePos[side]), side: side});
+            lastMoveTime = Date.now();
+          }
         }
       }
       
@@ -165,8 +172,11 @@ function pongPlayer(config, context) {
         distanceFromCenter = edgeSize / 2 / Math.tan(Math.PI / sides);
         let angle = (side - 1) * Math.PI * 2 / sides;
         
-        xfPlayer = new DOMMatrix();
-        xfPlayer.rotateSelf(0,0,angle);
+        let scaleFactor = height / (edgeSize + 2 * edgeMargin);
+        xfView = new DOMMatrix();
+        xfView.translateSelf(width / 2, height / 2);
+        xfView.scaleSelf(scaleFactor, scaleFactor);
+        xfView.translateSelf(Math.min(0, width / 2 - (distanceFromCenter + edgeMargin) * scaleFactor) / scaleFactor);
         
       }
       if (type == "paddle" && data.side != side) {
