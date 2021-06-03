@@ -14,7 +14,7 @@ function pongPlayer(config, context) {
   
   let ctx = null;
   
-  let paddlePos = 0;
+  let paddlePos = [];
   
   let numClients = 0;
   let clientNum = 0;
@@ -27,15 +27,19 @@ function pongPlayer(config, context) {
   let width = 0;
   let height = 0;
   
-  config = Object.assign({
-    paddleSize: 100,
-    edgeSize: 1000,
-    edgeMargin: 50,
-    edgeWall: 100,
-    ballSize: 5,
-    wallWidth: 5,
-    paddleWidth: 5
-  }, config);
+  let walls = [];
+  let sides = 0;
+  let side = 0;
+  
+  const {
+    paddleSize = 100,
+    edgeSize = 1000,
+    edgeMargin = 50,
+    edgeWall = 100,
+    ballSize = 5,
+    wallWidth = 5,
+    paddleWidth = 5
+  } = config;
   
   return {
     initialize: (parent, stimsrv) => {
@@ -54,7 +58,7 @@ function pongPlayer(config, context) {
       canvas.style.width = parent.clientWidth + "px";
       canvas.style.height = parent.clientHeight + "px";
 
-      let scaleFactor = height / (config.edgeSize + 2 * config.edgeMargin);
+      let scaleFactor = height / (edgeSize + 2 * edgeMargin);
       xfView = new DOMMatrix();
       xfView.translateSelf(width / 2, height / 2);
       xfView.scaleSelf(scaleFactor, scaleFactor);
@@ -70,41 +74,63 @@ function pongPlayer(config, context) {
       function pos(event) {
         let y = event.offsetY;
         y = new DOMPoint(0, y).matrixTransform(xfView.inverse()).y;
-        let extent = (config.edgeSize - config.paddleSize)/2
+        let extent = (edgeSize - paddleSize)/2
         y = Math.min(extent, Math.max(-extent, y));
-        paddlePos = y;
+        paddlePos[side] = y;
         
-        if (Date.now() - lastMoveTime > 100) {
-          stimsrv.event("paddle", {clientNum: clientNum, pos: paddlePos});
+        if (Date.now() - lastMoveTime > 20) {
+          stimsrv.event("paddle", {clientNum: clientNum, pos: Math.trunc(paddlePos[side]), side: side});
           lastMoveTime = Date.now();
+        }
+      }
+      
+      function drawSide(num) {
+        
+        let angle = (num - side) * 360 / sides;
+        
+        let xfSide = new DOMMatrix();
+        xfSide.rotateSelf(0,0,angle);
+        
+        ctx.resetTransform();
+        
+        ctx.setTransform(xfView.multiply(xfSide));
+        
+        if (walls.includes(num)) {
+          ctx.fillRect(distanceFromCenter, -edgeSize/2-wallWidth, wallWidth, edgeSize+2*wallWidth);
+        }
+        else {
+        
+          ctx.fillRect(distanceFromCenter, -edgeSize/2-wallWidth, wallWidth, edgeWall+wallWidth);
+          ctx.fillRect(distanceFromCenter, edgeSize/2 - edgeWall, wallWidth, edgeWall+wallWidth);
+          
+          if (paddlePos[num]) {
+            ctx.fillRect(distanceFromCenter - paddleWidth, paddlePos[num] - paddleSize / 2, paddleWidth, paddleSize);
+          }
         }
       }
       
       function update() {
         if (distanceFromCenter > 0) {
           
-          console.log("drawing!");
-          
           ctx.resetTransform();
           
           ctx.fillStyle = "#000000";
           ctx.fillRect(0,0,width,height);
-          
-          ctx.setTransform(xfView);
+
           ctx.fillStyle = "#ffffff";
-          ctx.strokeStyle = "#ffffff";
+          ctx.strokeStyle = "#ffffff";  
+
+          ctx.setTransform(xfView);
           
-          ctx.fillRect(-config.ballSize/2,-config.ballSize/2, config.ballSize, config.ballSize);
-          
-          ctx.fillRect(distanceFromCenter, -config.edgeSize/2, config.wallWidth, config.edgeWall);
-          ctx.fillRect(distanceFromCenter, config.edgeSize/2 - config.edgeWall, config.wallWidth, config.edgeWall);
-          
-          ctx.fillRect(distanceFromCenter - config.paddleWidth, paddlePos - config.paddleSize / 2, config.paddleWidth, config.paddleSize);
-          
+          ctx.fillRect(-ballSize/2,-ballSize/2, ballSize, ballSize);
+
+          for (let num = 1; num <= sides; num++) {
+            drawSide(num);
+          }
           /*
           ctx.beginPath();
-          ctx.moveTo(distanceFromCenter,-config.edgeSize/2);
-          ctx.lineTo(distanceFromCenter, config.edgeSize/2);
+          ctx.moveTo(distanceFromCenter,-edgeSize/2);
+          ctx.lineTo(distanceFromCenter, edgeSize/2);
           ctx.stroke();
           */
         }    
@@ -124,19 +150,27 @@ function pongPlayer(config, context) {
         numClients = data.numClients;
         clientNum = data.clientNum;
         
-        let sides = numClients;
+        sides = numClients;
+        side = clientNum;
+        
+        walls = [];
         if (sides < 3) {
           sides = 4;
           // make second player opposite
-          if (clientNum == 2) clientNum = 3;
+          if (side == 2) side = 3;
+          walls = [2,4]
+          if (numClients == 1) walls.push(3);
         }
         // inner radius (distance from center point to edge)
-        distanceFromCenter = config.edgeSize / 2 / Math.tan(Math.PI / sides);
-        let angle = (clientNum - 1) * Math.PI * 2 / sides;
+        distanceFromCenter = edgeSize / 2 / Math.tan(Math.PI / sides);
+        let angle = (side - 1) * Math.PI * 2 / sides;
         
         xfPlayer = new DOMMatrix();
         xfPlayer.rotateSelf(0,0,angle);
         
+      }
+      if (type == "paddle" && data.side != side) {
+        paddlePos[data.side] = data.pos;
       }
     }
   }
