@@ -45,7 +45,7 @@ function pongPlayer(config, context) {
     ballSize = 5,
     wallWidth = 5,
     paddleWidth = 5,
-    initialBallVector = [2,0],
+    initialBallVector = [2,0.2],
   } = config;
   
   // this must be pointing towards player 1!
@@ -108,11 +108,8 @@ function pongPlayer(config, context) {
       }
       
       function drawSide(num) {
-        
-        let angle = (num - side) * 360 / sides;
-        
-        let xfSide = new DOMMatrix();
-        xfSide.rotateSelf(0,0,angle);
+                
+        let xfSide = getSideXf(num-side+1);
         
         ctx.resetTransform();
         
@@ -130,6 +127,13 @@ function pongPlayer(config, context) {
             ctx.fillRect(distanceFromCenter - paddleWidth, paddlePos[num] - paddleSize / 2, paddleWidth, paddleSize);
           }
         }
+      }
+      
+      function getSideXf(sideNum) {
+        let angle = (sideNum - 1) * 360 / sides;
+        let xfSide = new DOMMatrix();
+        xfSide.rotateSelf(0,0,angle); 
+        return xfSide;
       }
       
       function update() {
@@ -171,7 +175,21 @@ function pongPlayer(config, context) {
             if (!hit && ballRelPos.x+ballSize/2 >= distanceFromCenter) {
               if ((ballRelPos.y-ballSize/2 < -edgeSize/2+edgeWall) ||
                   (ballRelPos.y+ballSize/2 > edgeSize/2-edgeWall)) {
+                    
+                hit = true;
+                
                 ballVector = ballVector.matrixTransform(xfPlayer).matrixTransform(xfReflect).matrixTransform(xfPlayerInverse);
+              }
+            }
+            // 1-2 player walls
+            for (let wallNum of walls) {
+              
+              let xfWall = getSideXf(wallNum);
+              
+              let wallBallPos = ballPosition.matrixTransform(xfWall);
+              if (wallBallPos.x+ballSize/2 > distanceFromCenter) {
+                ballVector = ballVector.matrixTransform(xfWall).matrixTransform(xfReflect).matrixTransform(xfWall.inverse());
+                stimsrv.event("ball", { dir: [ballVector.x, ballVector.y], target: ballTarget });
               }
             }
             
@@ -180,7 +198,32 @@ function pongPlayer(config, context) {
                 ballTarget = ballTarget == 1 ? 2 : 1;
               }
               if (numClients > 2) {
-                ballTarget = 2;
+                // intersect ball trajectory with each side to find target
+                debugger;
+                for (let s=1; s<=numClients; s++) {
+                  if (s == clientNum) continue;
+                  let xf = getSideXf(s);
+                  let v = ballVector.matrixTransform(xf);
+                  let pos = ballPosition.matrixTransform(xf);
+                  let ox = distanceFromCenter;
+                  let oy = -edgeSize/2;
+                  let dy = edgeSize;
+                  // b = (vy*(ox-px) - vx*(oy+py)) / (dy*vx - dx*vy)
+                  // dx = 0 -> b = (vy*(ox-px) - vx*(oy+py)) / dy*vx
+                  let b = (v.y*(ox-pos.x) - v.x*(oy+pos.y)) / dy*v.x;
+                  
+                  let p = new DOMPoint(distanceFromCenter, -edgeSize/2 + b*edgeSize);
+                  p = p.matrixTransform(xf.inverse());
+                  ctx.fillRect(p.x-ballSize,p.y-ballSize, ballSize*2, ballSize*2);
+                  
+                  if (b >= 0 && b <= 1) {
+                    ballTarget = s;
+                    console.log("New ballTarget: " + s);
+                    
+                    break;
+                  }
+                }
+
               }
               stimsrv.event("ball", { dir: [ballVector.x, ballVector.y], target: ballTarget });
             }
@@ -211,10 +254,12 @@ function pongPlayer(config, context) {
       //textEl.innerHTML += "<br>" + condition.text;
     },
     event: (type, data) => {
-      console.log("Event: ", type, data);
+      //console.log("Event: ", type, data);
       if (type == "client join" || type == "client leave") {
         numClients = data.numClients;
         clientNum = data.clientNum;
+        
+        console.log("Client: ", clientNum);
         
         sides = numClients;
         side = clientNum;
