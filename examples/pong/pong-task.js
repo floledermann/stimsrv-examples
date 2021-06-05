@@ -316,7 +316,7 @@ function pongPlayer(config, context) {
         //console.log(((side-1) * 360 / sides));
         xfView.translateSelf(Math.min(0, width / 2 - (distanceFromCenter + edgeMargin) * scaleFactor));
         xfView.scaleSelf(scaleFactor, scaleFactor);
-        xfView.scaleSelf(0.5, 0.5);
+        //xfView.scaleSelf(0.5, 0.5);
         
         xfNormalize = new DOMMatrix();
         xfNormalize.rotateSelf(0,0,(side-1) / sides * 360);
