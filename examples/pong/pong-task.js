@@ -46,9 +46,10 @@ function pongPlayer(config, context) {
     ballSize = 5,
     wallWidth = 5,
     paddleWidth = 5,
+    paddleDist = 1,
     initialBallVector = [3,0],
     sliceStrength = 3,
-    nonSliceStrength = 1
+    nonSliceStrength = 0.5
   } = config;
   
   // this must be pointing towards player 1!
@@ -57,6 +58,18 @@ function pongPlayer(config, context) {
   if (Math.abs(initialBallVector[1]) > initialBallVector[0]) initialBallVector[1] = initialBallVector[0] * 0.9;
   
   let stimsrv = null;
+  
+  function setupViewMatrix() {
+    let scaleFactor = height / (edgeSize + 2 * edgeMargin);
+    xfView = new DOMMatrix();
+    xfView.translateSelf(width / 2, height / 2);
+    xfView.translateSelf(Math.min(0, width / 2 - (distanceFromCenter + edgeMargin) * scaleFactor));
+    xfView.rotateSelf(0,0,((side-1) / sides * 360 ));
+    xfView.scaleSelf(scaleFactor, scaleFactor);
+    
+    xfNormalize = new DOMMatrix();
+    xfNormalize.rotateSelf(0,0,(side-1) / sides * 360);
+  }
   
   return {
     initialize: (parent, _stimsrv) => {
@@ -67,17 +80,29 @@ function pongPlayer(config, context) {
       
       let canvas = parent.ownerDocument.createElement("canvas");
       let dppx = _window.devicePixelRatio || 1;
-              
-      width = parent.clientWidth * dppx;
-      height = parent.clientHeight * dppx;
       
-      canvas.width = width;
-      canvas.height = height;
+      function resize() {
+                
+        width = parent.clientWidth * dppx;
+        height = parent.clientHeight * dppx;
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        canvas.style.width = parent.clientWidth + "px";
+        canvas.style.height = parent.clientHeight + "px";
+
+      }
       
-      canvas.style.width = parent.clientWidth + "px";
-      canvas.style.height = parent.clientHeight + "px";
+      resize();        
 
       parent.appendChild(canvas);
+
+      let observer = new ResizeObserver((entries) => {
+        resize();
+        setupViewMatrix();
+      });
+      observer.observe(parent);      
       
       ctx = canvas.getContext("2d");
       
@@ -138,8 +163,8 @@ function pongPlayer(config, context) {
           ctx.fillRect(distanceFromCenter, -edgeSize/2-wallWidth, wallWidth, edgeWall+wallWidth);
           ctx.fillRect(distanceFromCenter, edgeSize/2 - edgeWall, wallWidth, edgeWall+wallWidth);
           
-          if (paddlePos[num]) {
-            ctx.fillRect(distanceFromCenter - paddleWidth, paddlePos[num] - paddleSize / 2, paddleWidth, paddleSize);
+          if (paddlePos[num] !== undefined) {
+            ctx.fillRect(distanceFromCenter - paddleWidth - paddleDist, paddlePos[num] - paddleSize / 2, paddleWidth, paddleSize);
           }
         }
       }
@@ -158,7 +183,7 @@ function pongPlayer(config, context) {
         let hit = false;
 
         // paddle hit ?
-        if (ballRelPos.x+ballSize/2 >= distanceFromCenter-paddleWidth) {
+        if (ballRelPos.x+ballSize/2 >= distanceFromCenter-paddleWidth-paddleDist) {
           if ((ballRelPos.y+ballSize/2 > paddlePos[side]-paddleSize/2) &&
               (ballRelPos.y-ballSize/2 < paddlePos[side]+paddleSize/2)) {
             
@@ -171,7 +196,7 @@ function pongPlayer(config, context) {
             ballVector = ballVector.matrixTransform(xfNormalize).matrixTransform(xfReflect).matrixTransform(xfSlice).matrixTransform(xfNormalize.inverse());
           }
         }
-        // wall hit?
+        // player edge wall hit?
         if (!hit && ballRelPos.x+ballSize/2 >= distanceFromCenter) {
           if ((ballRelPos.y-ballSize/2 < -edgeSize/2+edgeWall) ||
               (ballRelPos.y+ballSize/2 > edgeSize/2-edgeWall)) {
@@ -187,9 +212,12 @@ function pongPlayer(config, context) {
           let xfWall = getSideXf(wallNum);
           
           let wallBallPos = ballPosition.matrixTransform(xfWall);
-          if (wallBallPos.x+ballSize/2 > distanceFromCenter) {
+          let wallBallDir = ballVector.matrixTransform(xfWall);
+          
+          // check if it goes into direction of wall, otherwise it has already been reflected
+          if (wallBallPos.x+ballSize/2 > distanceFromCenter && wallBallDir.x > 0) {
             ballVector = ballVector.matrixTransform(xfWall).matrixTransform(xfReflect).matrixTransform(xfWall.inverse());
-            stimsrv.event("ball", { dir: [ballVector.x, ballVector.y], target: ballTarget });
+            stimsrv.event("ball", { dir: [ballVector.x, ballVector.y], pos: [ballPosition.x, ballPosition.y], target: ballTarget });
           }
         }
                     
@@ -212,7 +240,9 @@ function pongPlayer(config, context) {
             }
 
           }
-          stimsrv.event("ball", { dir: [ballVector.x, ballVector.y], target: ballTarget });
+          // edge case for y==0, may reflect endlessly in corner
+          if (ballVector.y == 0) ballVector.y = 0.001;
+          stimsrv.event("ball", { dir: [ballVector.x, ballVector.y], pos: [ballPosition.x, ballPosition.y], target: ballTarget });
         }
         // no hit
         else {
@@ -261,6 +291,8 @@ function pongPlayer(config, context) {
         return b;
       }
       
+      let lastUpdateTime = Date.now();
+      
       function update() {
         if (distanceFromCenter > 0 && ballVector) {
           
@@ -276,6 +308,8 @@ function pongPlayer(config, context) {
           ctx.textBaseline = "top";
           ctx.textAlign = "center";
           
+          ctx.scale(dppx, dppx);
+          
           for (let i=0; i<numClients; i++) {
             ctx.fillText(score[i+1]||"0", 20 + i*30, 10);
             if (i+1 == clientNum) {
@@ -285,20 +319,35 @@ function pongPlayer(config, context) {
           
           ctx.setTransform(xfView);
           
-          if (ballVector) {
-            ballPosition.x += ballVector.x;
-            ballPosition.y += ballVector.y;
-          }
-          
-          // make ball edges orthogonal
-          ctx.save();
-          ctx.translate(ballPosition.x, ballPosition.y);
-          ctx.rotate(-(side-1) / sides * Math.PI * 2);
-          ctx.fillRect(-ballSize/2,-ballSize/2, ballSize, ballSize);
-          ctx.restore();
-          
           // targeted user is responsible for collision checking
           if (ballTarget == clientNum) checkCollisions();
+
+          if (ballVector) {
+            let dt = Date.now()-lastUpdateTime;
+            
+            ballPosition.x += ballVector.x * dt / 25;
+            ballPosition.y += ballVector.y * dt / 25;
+            
+            lastUpdateTime = Date.now();
+          }
+          
+          let ballInPlayfield = true;
+          if (ballTarget != clientNum) {
+            let targetSide = (numClients == 2 && ballTarget == 2) ? 3 : ballTarget;
+            let xf = getSideXf(targetSide);
+            let relPos = ballPosition.matrixTransform(xf);
+            if (relPos.x > distanceFromCenter) {
+              ballInPlayfield = false;
+            }
+          }
+          if (ballInPlayfield) {
+            // make ball edges orthogonal
+            ctx.save();
+            ctx.translate(ballPosition.x, ballPosition.y);
+            ctx.rotate(-(side-1) / sides * Math.PI * 2);
+            ctx.fillRect(-ballSize/2,-ballSize/2, ballSize, ballSize);
+            ctx.restore();
+          }  
           
           // draw line along ball vector for debugging
           //if (ballVector) {
@@ -360,16 +409,8 @@ function pongPlayer(config, context) {
         distanceFromCenter = edgeSize / 2 / Math.tan(Math.PI / sides);
         let angle = (side - 1) * Math.PI * 2 / sides;
         
-        let scaleFactor = height / (edgeSize + 2 * edgeMargin);
-        xfView = new DOMMatrix();
-        xfView.translateSelf(width / 2, height / 2);
-        xfView.rotateSelf(0,0,((side-1) / sides * 360 ));
-        xfView.translateSelf(Math.min(0, width / 2 - (distanceFromCenter + edgeMargin) * scaleFactor));
-        xfView.scaleSelf(scaleFactor, scaleFactor);
+        setupViewMatrix();
         
-        xfNormalize = new DOMMatrix();
-        xfNormalize.rotateSelf(0,0,(side-1) / sides * 360);
-                
         if (!ballVector && clientNum == 1) {
           ballVector = new DOMPoint(initialBallVector[0], initialBallVector[1]);
           ballPosition = new DOMPoint(0,0);
@@ -384,10 +425,13 @@ function pongPlayer(config, context) {
         paddlePos[data.side] = data.pos;
       }
       if (type == "ball") {
-        ballVector = new DOMPoint(data.dir[0], data.dir[1]);
-        ballTarget = data.target;
-        if (data.pos) {
-          ballPosition = new DOMPoint(data.pos[0], data.pos[1]);
+        // don't do "subordinate" updates if this client is currently in control
+        if (data.target != clientNum || data.target != ballTarget) {
+          ballTarget = data.target;
+          ballVector = new DOMPoint(data.dir[0], data.dir[1]);        
+          if (data.pos) {
+            ballPosition = new DOMPoint(data.pos[0], data.pos[1]);
+          }
         }
       }
     }
