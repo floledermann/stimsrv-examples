@@ -39,8 +39,8 @@ module.exports = {
             // defined by the client role (defined above at the experiment level).
             // By convention, the "display" interface is used for displaying the stimulus:
             "display": {
-              // Each inerfaces entry needs two functions: initialize() and render().
-              // initialize() gets passed the parent element and the stimsrv client,
+              // Each inerfaces entry contains two functions: initialize() and render().
+              // initialize() gets passed the parent element and the stimsrv client API,
               // and sets up ui elements and interaction.
               initialize: (parent, stimsrv) => {
                 // Add a simple text element to the parent
