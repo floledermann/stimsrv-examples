@@ -1,5 +1,4 @@
 const puppeteerClient = require("stimsrv-client-puppeteer");
-const canvasClient = require("stimsrv-client-servercanvas");
 
 module.exports = {
   clients: {
@@ -14,13 +13,7 @@ module.exports = {
       // If you want to suppress the puppeteer window and accept less accurate rendering, uncomment the next line.
       //headless: true,
     }),
-    
-    // stimsrv-client-servercanvas is an alternative implementation, using the node-canvas library
-    // for server side rendering. The resulting stimuli may not match browser-based rendering exactly,
-    // so this should not be mixed with other clients if accuracy is important.
-    
-    "browser-canvas": canvasClient()
-    
+        
   }
 }
   

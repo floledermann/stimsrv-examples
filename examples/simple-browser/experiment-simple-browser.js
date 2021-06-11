@@ -44,14 +44,6 @@ module.exports = {
       pixeldensity: 91,
       viewingdistance: 350,
     },
-    {
-      id: "old2",
-      client: "browser-canvas",
-      resolution: "hd",
-      imageSize: "600x600",
-      pixeldensity: 91,
-      viewingdistance: 600,
-    }
   ],
   
   roles: [

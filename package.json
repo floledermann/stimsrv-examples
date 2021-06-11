@@ -12,7 +12,6 @@
     "nodemon": "2.0.7",
     "stimsrv": "0.0.7",
     "stimsrv-client-puppeteer": "0.0.3",
-    "stimsrv-client-servercanvas": "0.0.3",
     "stimsrv-task-slippymap": "0.0.7"
   }
 }
