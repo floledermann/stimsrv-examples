@@ -52,7 +52,7 @@ let renderer = config => canvasRenderer(renderText, {
 });
 
 
-// The actual task definition, using the simpleTask helper
+// The actual task definition, using the simpleTask helper to tie everything together
 let task = simpleTask({
   name: "text",
   description: "Text",
