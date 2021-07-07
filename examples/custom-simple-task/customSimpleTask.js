@@ -72,7 +72,8 @@ let task = simpleTask({
       css: config.css
     }),
   },
-  resources: "fonts"
+  // Resources to load
+  resources: config => config.fonts
 });
 
 
