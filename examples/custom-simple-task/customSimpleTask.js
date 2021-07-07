@@ -3,7 +3,11 @@ const simpleTask = require("stimsrv/task/simpleTask");
 const htmlButtons = require("stimsrv/ui/htmlButtons");
 const canvasRenderer = require("stimsrv/stimulus/canvas/canvasRenderer");
 
+// A simplified version of the "text" task, for demonstrating the 
+// implementation of custom tasks using the simpleTask helper
 
+
+// Defaults for the task. These include properties of the condition and the task configuration.
 const DEFAULTS = {
   
   // condition
@@ -25,11 +29,11 @@ const DEFAULTS = {
 };
 
 
-// Function for rendering the stimulus
-// When this is called, a drawing context has been initialized (first parameter),
-// units have been converted to pixel values, fonts are loaded,
-// and the rotate and transform properties have been applied to the canvas.
-// So this code can be kept simple.
+// Function for rendering the stimulus using a HTML Canvas.
+// A CanvasContext2D drawing context is passed as the first parameter, the current condition as the second.
+// The "rotate" and "transform" properties of the condition have been applied to the drawing context.
+// Properties of the condition specified as dimensions (see below) have been converted to pixel values.
+// Fonts have been loaded.
 function renderText(ctx, condition) {
   
   ctx.textAlign = "center";
@@ -43,15 +47,18 @@ function renderText(ctx, condition) {
 // The canvasRenderer provides built-in functionality
 // such as conversion of dimensions and intensities and loading fonts
 let renderer = config => canvasRenderer(renderText, {
-  dimensions: ["fontSize"],                               // properties that should be converted as dimension (using context.pixelDensity)
-  fonts: config.fonts                                     // fonts to load
+  dimensions: ["fontSize"],   // properties that should be converted from dimensions to pixels (using context.pixelDensity)
+  fonts: config.fonts         // fonts to load
 });
 
 
+// The actual task definition, using the simpleTask helper
 let task = simpleTask({
   name: "text",
   description: "Text",
   defaults: DEFAULTS,
+  // The interfaces the task provides.
+  // These can be remapped by the user by using the "<interfaceName>Interface" configuration properties.
   interfaces: {
     display: renderer,
     monitor: renderer,

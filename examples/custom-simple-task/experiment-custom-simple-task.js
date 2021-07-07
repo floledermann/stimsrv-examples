@@ -48,9 +48,9 @@ module.exports = {
     
     // Complex usage, using a multiple property specifications: 
     customTextTask(
-      //  First argument is an array of parameter specifications, including transformation functions
+      //  First argument is an *array* of parameter specifications, including transformation functions
       [
-        // Define our condition generator like above
+        // Define condition generator like above
         {
           text: sequence(["Task 2.1","Task 2.2","Task 2.3"]),
           fontSize: sequence(["5mm","4mm","3mm"]),
