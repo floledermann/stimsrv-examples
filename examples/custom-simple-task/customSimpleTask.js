@@ -10,7 +10,7 @@ const canvasRenderer = require("stimsrv/stimulus/canvas/canvasRenderer");
 // Defaults for the task. These include properties of the condition and the task configuration.
 const DEFAULTS = {
   
-  // condition
+  // condition - these properties may change with each condition
   
   text: "<no text defined>",
   fontSize: "4mm",
@@ -19,20 +19,26 @@ const DEFAULTS = {
   backgroundIntensity: 1.0,
   foregroundIntensity: 0.0,
   
-  // config
+  choices: ["Continue"],  // choices for the buttons
+  
+  // config - these properties stay constant within one run of the task
+  // these values are the implicit defaults, but put here for documentation
   
   displayInterface: "display", 
   responseInterface: "response",
   monitorInterface: "monitor",
-  // fonts
-  // css
+  fonts: null,
+  css: null
 };
 
 
 // Function for rendering the stimulus using a HTML Canvas.
 // A CanvasContext2D drawing context is passed as the first parameter, the current condition as the second.
-// The "rotate" and "transform" properties of the condition have been applied to the drawing context.
+// At this point the "rotate" and "transform" properties of the condition have been applied to the drawing context.
 // Properties of the condition specified as dimensions (see below) have been converted to pixel values.
+// Properties of the condition specified as intensities have been converted to color values, and
+// the backgroundIntensity and foregroundIntensity properties have been set as the background and
+// foreground colors, respectively.
 // Fonts have been loaded.
 function renderText(ctx, condition) {
   
@@ -51,6 +57,18 @@ let renderer = config => canvasRenderer(renderText, {
   fonts: config.fonts         // fonts to load
 });
 
+// Buttons for entering the response
+// The buttons may change with every condition
+let buttons = config => htmlButtons({
+  buttons: condition => condition.choices.map(
+    choice => ({
+      label: choice,
+      response: {text: choice} 
+    })
+  ),
+  css: config.css
+});
+
 
 // The actual task definition, using the simpleTask helper to tie everything together
 let task = simpleTask({
@@ -62,15 +80,7 @@ let task = simpleTask({
   interfaces: {
     display: renderer,
     monitor: renderer,
-    response: config => htmlButtons({
-      buttons: condition => condition.choices.map(
-        choice => ({
-          label: choice,
-          response: {text: choice} 
-        })
-      ),
-      css: config.css
-    }),
+    response: buttons,
   },
   // Resources to load
   resources: config => config.fonts
