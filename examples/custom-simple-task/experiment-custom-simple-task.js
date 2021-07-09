@@ -30,7 +30,7 @@ module.exports = {
     {
       role: "participant",
       devices: ["anyone"],
-      interfaces: ["display", "response", "displayTask1"] // define a custom interface "displayTask1"
+      interfaces: ["display", "response"]
     }
   ],
     
@@ -50,11 +50,6 @@ module.exports = {
       rotate: random.range(-60,60, {round: 1}), // "rotate" and "translate" parameters are handled by canvasRenderer
       translate: ["3cm","-3cm"],                // Unit conversion is handled by canvasRenderer
       choices: ["A","B"],                       // see the customSimpleTask.js source for how the choices property is passed to the buttons
-      
-      // Redefinition of interfaces to use for this task
-      // display the stimulus for this task on a specific interface
-      // this requires custom css for specifying the size of the interface
-      //displayInterface: "displayTask1",
       
       // add some custom css when this task is activated
       css: `                                    
