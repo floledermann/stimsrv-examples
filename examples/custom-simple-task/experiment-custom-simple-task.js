@@ -4,13 +4,15 @@ const random = require("stimsrv/controller/random");
 
 const pause = require("stimsrv/task/pause");
 
-// Inspect customSimpleTask.js to see how the task is implemented
 const customTextTask = require("./customSimpleTask.js");
 
-// The simpleTask helper provides a few helpful features for implementing tasks.
-// These are enumerated with (#n) in this file
+// Example showing how to implement & use a custom task using the simpleTask helper.
+// Inspect customSimpleTask.js in this directory to see how the task is defined.
+// This file uses the "customTextTask" task defined in customSimpleTask.js.
 
-// (#1) configuration of defaults
+// The simpleTask helper provides a few helpful features for implementing tasks.
+
+// Global reconfiguration of defaults
 customTextTask.defaults({
   backgroundIntensity: 0.8,   // use light grey background by default
   fontFamily: "Orelega One",  // use custom font
@@ -43,12 +45,13 @@ module.exports = {
       description: "This is the first test task.",
       
       text: "Task 1",
-      fontSize: sequence(["5mm","4mm","3mm"]),  // (#2) assignment of condition properties from generators. 
+      fontSize: sequence(["5mm","4mm","3mm"]),  // Assignment of condition properties from generators. 
                                                 // (Unit conversion is handled by canvasRenderer)
       rotate: random.range(-60,60, {round: 1}), // "rotate" and "translate" parameters are handled by canvasRenderer
       translate: ["3cm","-3cm"],                // Unit conversion is handled by canvasRenderer
       choices: ["A","B"],                       // see the customSimpleTask.js source for how the choices property is passed to the buttons
       
+      // Redefinition of interfaces to use for this task
       // display the stimulus for this task on a specific interface
       // this requires custom css for specifying the size of the interface
       //displayInterface: "displayTask1",
