@@ -83,12 +83,12 @@ module.exports = {
             text: "Small Text",
             fontSize: "3mm",
           }
-        ], {multiple: 3}),
+        ], {multiple: 3}), // repeat each item 3 times
         // Step 3: Transformation function (invoked on server)
         context => condition => ({ text: condition.text + " (Task2, dynamic!)" }),
       ],
       // Second argument is a transformation function that transforms the condition *on each client*
-      context => condition => ({ text: condition.text + ", viewed on device id: " + context.deviceid })
+      context => condition => ({ text: condition.text + ", device id: " + context.deviceid })
     ),
     
       
