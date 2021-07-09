@@ -28,7 +28,7 @@ module.exports = {
     {
       role: "participant",
       devices: ["anyone"],
-      interfaces: ["display", "response"]
+      interfaces: ["display", "response", "displayTask1"] // define a custom interface "displayTask1"
     }
   ],
     
@@ -37,28 +37,57 @@ module.exports = {
     // Inspect customSimpleTask.js to see how this task is implemented
     
     // Basic usage: Only argument is a configuration object with iterators for changing condition parameters
+    // for most applications, this way of setting up the task will be sufficient
     customTextTask({
+      name: "task1",
+      description: "This is the first test task.",
+      
       text: "Task 1",
       fontSize: sequence(["5mm","4mm","3mm"]),  // (#2) assignment of condition properties from generators. 
                                                 // (Unit conversion is handled by canvasRenderer)
       rotate: random.range(-60,60, {round: 1}), // "rotate" and "translate" parameters are handled by canvasRenderer
       translate: ["3cm","-3cm"],                // Unit conversion is handled by canvasRenderer
-      choices: ["A","B"],                       // see the customSimpleTask.js source for how the choices property is expanded into buttons
+      choices: ["A","B"],                       // see the customSimpleTask.js source for how the choices property is passed to the buttons
+      
+      // display the stimulus for this task on a specific interface
+      // this requires custom css for specifying the size of the interface
+      //displayInterface: "displayTask1",
+      
+      // add some custom css when this task is activated
+      css: `                                    
+        .buttons button {
+          text-transform: uppercase;
+        }
+      `,
     }),
     
-    // Complex usage, using a multiple property specifications: 
+    // Complex usage, using multiple property specifications.
+    // This can be used to generate more complex conditions,
+    // e.g. multiple fields that depend on one another or choosing from a set of conditions
     customTextTask(
-      //  First argument is an *array* of parameter specifications, including transformation functions
+      // First argument is an *array* of parameter specifications to construct the condition in multiple steps
+      // Each step may be an object, a generator or a transformation function
       [
-        // Define condition generator like above
+        // Step 1: define properties like above
         {
-          text: sequence(["Task 2.1","Task 2.2","Task 2.3"]),
-          fontSize: sequence(["5mm","4mm","3mm"]),
+          name: "task2",
+          description: "This is the second test task.",
           rotate: random.range(-60,60, {round: 1}),
           choices: ["A","B"],
         },
-        // Transform the generated condition with a function (on the server)
-        context => condition => ({ text: condition.text + " (dynamic!)" }),
+        // Step 2: Generator for conditions composed of multiple dependent properties
+        random.shuffle([
+          {
+            text: "Large Text",
+            fontSize: "10mm",
+          },
+          {
+            text: "Small Text",
+            fontSize: "3mm",
+          }
+        ], {multiple: 3}),
+        // Step 3: Transformation function (invoked on server)
+        context => condition => ({ text: condition.text + " (Task2, dynamic!)" }),
       ],
       // Second argument is a transformation function that transforms the condition *on each client*
       context => condition => ({ text: condition.text + ", viewed on device id: " + context.deviceid })
