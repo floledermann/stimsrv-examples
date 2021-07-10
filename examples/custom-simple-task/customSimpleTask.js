@@ -32,12 +32,13 @@ const DEFAULTS = {
 
 // Function for rendering the stimulus using a HTML Canvas.
 // A CanvasContext2D drawing context is passed as the first parameter, the current condition as the second.
-// At this point the "rotate" and "transform" properties of the condition have been applied to the drawing context.
-// Properties of the condition specified as dimensions (see below) have been converted to pixel values.
-// Properties of the condition specified as intensities have been converted to color values, and
-// the backgroundIntensity and foregroundIntensity properties have been set as the background and
-// foreground colors, respectively.
-// Fonts have been loaded.
+// When this method is called, some things have already been taken care of internally:
+// - The "rotate" and "transform" properties of the condition have been applied to the drawing context.
+// - Properties of the condition specified as dimensions (see below) have been converted to pixel values.
+// - Properties of the condition specified as intensities have been converted to color values.
+// - The "backgroundIntensity" and "foregroundIntensity" properties have been set as the background and
+// foreground colors of the drawing context, respectively.
+// - Fonts have been loaded.
 function renderText(ctx, condition) {
   
   ctx.textAlign = "center";
@@ -64,7 +65,7 @@ let buttons = config => htmlButtons({
       response: {text: choice} 
     })
   ),
-  // css can be passed to the buttons with the "css" property upon task initialization
+  // CSS can be passed to the buttons with the "css" property upon task initialization
   css: config.css
 });
 

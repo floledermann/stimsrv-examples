@@ -66,14 +66,15 @@ module.exports = {
       // First argument is an *array* of parameter specifications to construct the condition in multiple steps
       // Each step may be an object, a generator or a transformation function
       [
-        // Step 1: define properties like above
+        // Step 1: Define properties like above
         {
           name: "task2",
           description: "This is the second test task.",
           rotate: random.range(-60,60, {round: 1}),
+          translate: sequence.array([random.range(-3,3, {suffix: "cm"}),random.range(-3,3, {suffix: "cm"})]),
           choices: ["A","B"],
         },
-        // Step 2: Generator for conditions composed of multiple dependent properties
+        // Step 2: Use a generator for conditions composed of multiple dependent properties
         random.shuffle([
           {
             text: "Large Text",
@@ -84,7 +85,7 @@ module.exports = {
             fontSize: "3mm",
           }
         ], {multiple: 3}), // repeat each item 3 times
-        // Step 3: Transformation function (invoked on server)
+        // Step 3: Transformation function (invoked on server to transform the condition)
         context => condition => ({ text: condition.text + " (Task2, dynamic!)" }),
       ],
       // Second argument is a transformation function that transforms the condition *on each client*
