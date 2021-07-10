@@ -49,7 +49,7 @@ module.exports = {
                                                 // (Unit conversion is handled by canvasRenderer)
       rotate: random.range(-60,60, {round: 1}), // "rotate" and "translate" parameters are handled by canvasRenderer
       translate: ["3cm","-3cm"],                // Unit conversion is handled by canvasRenderer
-      choices: ["A","B"],                       // see the customSimpleTask.js source for how the choices property is passed to the buttons
+      choices: ["a","b"],                       // see the customSimpleTask.js source for how the choices property is passed to the buttons
       
       // add some custom css when this task is activated
       css: `                                    
@@ -72,7 +72,7 @@ module.exports = {
           description: "This is the second test task.",
           rotate: random.range(-60,60, {round: 1}),
           translate: sequence.array([random.range(-3,3, {suffix: "cm"}),random.range(-3,3, {suffix: "cm"})]),
-          choices: ["A","B"],
+          choices: ["a","b"],
         },
         // Step 2: Use a generator for conditions composed of multiple dependent properties
         random.shuffle([
@@ -89,7 +89,7 @@ module.exports = {
         context => condition => ({ text: condition.text + " (Task2, dynamic!)" }),
       ],
       // Second argument is a transformation function that transforms the condition *on each client*
-      context => condition => ({ text: condition.text + ", device id: " + context.deviceid })
+      context => condition => ({ text: condition.text + ", device id: " + context.clientid })
     ),
     
       
