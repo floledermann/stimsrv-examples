@@ -92,18 +92,16 @@ module.exports = function(config) {
   return {
     name: "text",
     description: "Text", 
-    ui: function(context) {
-      return {
-        interfaces: {
-          display: renderer,
-          // apply letter-spacing on button to avoid hint by text length
-          // unfortunately CSS applies letter-spacing after the last letter, so we need this hack
-          response: htmlButtons("Continue"),
-          monitor: renderer,
-          control: htmlButtons("Continue"),
-        }
+    frontend: context => ({
+      interfaces: {
+        display: renderer,
+        // apply letter-spacing on button to avoid hint by text length
+        // unfortunately CSS applies letter-spacing after the last letter, so we need this hack
+        response: htmlButtons("Continue"),
+        monitor: renderer,
+        control: htmlButtons("Continue"),
       }
-    },
+    }),
     controller: parameterController({
       parameters: config.parameters,
     }),

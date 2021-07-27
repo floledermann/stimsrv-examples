@@ -29,7 +29,7 @@ module.exports = {
       // *ui* is a function that receives the task's context and 
       // returns information on the task's ui components.
       // The task's ui will be rendered on each participating client.
-      ui: context => {
+      frontend: context => {
         let textEl = null;
         let buttonEl = null;
         // The object returned by task.ui() has to have an "interfaces" entry
@@ -105,7 +105,7 @@ module.exports = {
     // The same task, without comments to see the structure more clearly
     {
       name: "task2",
-      ui: context => {
+      frontend: context => {
         let textEl = null;
         let buttonEl = null;
         return {

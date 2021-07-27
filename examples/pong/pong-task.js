@@ -1,13 +1,11 @@
 
-function pongUI(config) {
-  return function(context) {
-    return {
-      interfaces: {
-        "display": pongPlayer(config, context),
-        "monitor": pongSupervisor(config, context)
-      }
+function pongFrontend(config) {
+  return context => ({
+    interfaces: {
+      "display": pongPlayer(config, context),
+      "monitor": pongSupervisor(config, context)
     }
-  }
+  });
 }
 
 function pongPlayer(config, context) {
@@ -470,7 +468,7 @@ function pongController(config) {
 function pong(config) {
   return {
     name: "task2",
-    ui: pongUI(config),
+    frontend: pongFrontend(config),
     controller: pongController(config)
   }
 }
