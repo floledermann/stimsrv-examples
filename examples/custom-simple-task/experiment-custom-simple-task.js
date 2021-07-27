@@ -26,6 +26,13 @@ module.exports = {
   
   name: "Custom Task using simpleTask Helper Example",
   
+  devices: [
+    {
+      id: "anyone",
+      pixelDensity: 100
+    }
+  ],
+  
   roles: [
     {
       role: "participant",
