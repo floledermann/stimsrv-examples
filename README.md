@@ -31,17 +31,21 @@ Make sure to always only run one experiment at a time, otherwise stimsrv will cr
 
 ### Examples in this repository
 
-#### [/examples/minimal/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/minimal)
+#### [/examples/a_minimal/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/a_minimal)
 
-Minimal experiment file, showing only a "hello world" message.
+A minimal experiment file, showing only a "hello world" message. Can be used as an empty starting point or to verify that the stimsrv installation is running without errors on your setup.
+
+#### [/examples/custom-css/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/custom-css)
+
+Customizing an experiment's frontend by specifying custom CSS for devices, roles and tasks.
+
+#### [/examples/custom-simple-task/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/custom-simple-task)
+
+Creating a custom task from using the `simpleTask` factory.
 
 #### [/examples/custom-task/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/custom-task)
 
 Creating a custom task from scratch.
-
-#### [/examples/acuity-sloan/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/sloan)
-
-Estimating visual acuity using [Sloan letters](https://en.wikipedia.org/wiki/Sloan_letters).
 
 #### [/examples/image/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/image)
 
@@ -54,6 +58,19 @@ Example experiment showing (nested) loops and dynamic context.
 #### [/examples/map-sync/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/map-sync)
 
 Synchronizing interaction with a web map across devices.
+
+#### [/examples/pong/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/pong)
+
+Multiplayer PONG game, showing realtime events.
+
+#### [/examples/simple-browser/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/simple-browser)
+
+Using stimsrv on old and simple devices, making use of server-side rendering with Puppeteer.
+
+#### [/examples/sloan-acuity/](https://github.com/floledermann/stimsrv-examples/tree/main/examples/sloan-acuity)
+
+Estimating visual acuity using [Sloan letters](https://en.wikipedia.org/wiki/Sloan_letters).
+
 
 ----
 
