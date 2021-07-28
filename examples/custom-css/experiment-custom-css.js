@@ -40,24 +40,6 @@ module.exports = {
 .current-task-task1 #interface-response {
   font-size: 2em;   /* double font size for response button for task 1. */
 }
-
-/*
-.current-task-task1 #interface-display {
-  order: 2;
-}
-.current-task-task1 #interface-response {
-  order: 1;
-}
-
-body.current-task-task2 {
-  flex-direction: row;
-}
-
-.current-task-task2.is-device-anyone #interface-response {
-  flex: 0 0 400px;  /* Make response section 400px wide. */
-}
-*/
-.
   `,
 
   devices: [
@@ -67,7 +49,8 @@ body.current-task-task2 {
       css: `
 /* CSS applied to the specific device (anyone). */
 #interface-display .content::before {
-  content: "(Device: anyone)";
+  content: "(Device: anyone) ";
+  font-size: 0.3em;
 }
       `
     }
@@ -83,7 +66,8 @@ body.current-task-task2 {
       css: `
 /* CSS applied to the specific role (display). */
 #interface-display .content::after {
-  content: "(Role: main)";
+  content: " (Role: main)";
+  font-size: 0.3em;
 }
       `
     }
@@ -95,9 +79,10 @@ body.current-task-task2 {
       name: "task1",
       message: "This is task 1.",
       // css property of task - is only present as long as the task is active
+      // (this depends on the task implementation, but is supported by most standard tasks)
       css: `
 /* CSS applied as long as the task is active. */
-/* The oder property can be used to reorder UIs in the flexbox layout. */
+/* The oder property can be used to reorder UI elements in the flexbox layout. */
 #interface-display {
   order: 2;
 }
@@ -105,19 +90,26 @@ body.current-task-task2 {
   order: 1;
 }
       `,
+      // the pause task lets you set style attributes of the message element 
+      // through the messageStyle property, either as string 
+      // or as a collection of CSS properties
+      messageStyle: {
+        color: "#ff3333" // red text color
+      }
     }),
     
     pause({
       name: "task2",
       message: "This is task 2.",
       // css property of task - is only present as long as the task is active
+      // (this depends on the task implementation, but is supported by most standard tasks)
       css: `
 /* CSS applied as long as the task is active. */
 /* The overall layout can be changed by controlling flexbox layout on the body.*/
 body {
   flex-direction: row;
 }
-/* This can be combined e.g. with device selectors to adjust the UI.
+/* This can be combined e.g. with device selectors to adjust the UI. */
 .is-device-anyone #interface-response {
   flex: 0 0 400px; /* Make response section 400px wide. */
 }
