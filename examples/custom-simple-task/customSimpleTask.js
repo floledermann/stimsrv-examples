@@ -66,6 +66,7 @@ let buttons = config => htmlButtons({
     })
   ),
   // CSS can be passed to the buttons with the "css" property upon task initialization
+  // TODO: "css" should be a first-level member of the task frontend object, not added to individual UIs like now.
   css: config.css
 });
 
