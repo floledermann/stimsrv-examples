@@ -30,6 +30,8 @@ module.exports = {
             stepType: "multiply",
             minReversals: context => context.minReversals,
           }),
+          
+          // override the CSS for this task
           css: `
             .buttons {
               display: grid;
@@ -66,7 +68,7 @@ module.exports = {
                 outline: false
               }
             });
-            // these are our buttons, with one button for each choice
+            // define our buttons, with one button for each choice (supplied by the condition)
             let responseButtons = htmlButtons({
               buttons: condition => condition.choices.map(
                 c => ({
@@ -84,6 +86,7 @@ module.exports = {
           },
           
         },
+        
         // dynamic configuration: select word from hierarchical collection
         context => {
           
