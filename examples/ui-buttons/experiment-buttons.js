@@ -60,7 +60,7 @@ module.exports = {
               height: 40,
               // each condition received can be adapted to the button by overriding some of its properties
               overrideCondition: {
-                angle: 0,
+                angle: -10,
                 backgroundIntensity: 1.0,
                 fontSize: "6mm",
                 outline: false
