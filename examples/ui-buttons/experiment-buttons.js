@@ -1,6 +1,6 @@
 
 const pause = require("stimsrv/task/pause");
-const text = require("stimsrv/task/canvasText");
+const text = require("stimsrv/task/text");
 
 const staircase = require("stimsrv/controller/staircase");
 const random = require("stimsrv/controller/random");
