@@ -15,5 +15,5 @@ exit /b 1
 :ok
 
 echo Launching %filename% ...
-call npx nodemon -e js --watch . --exec "npx" stimsrv %filename%
+npx nodemon -e js --watch . --exec "npx" stimsrv %filename%
 pause
