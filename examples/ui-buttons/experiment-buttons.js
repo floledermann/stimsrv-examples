@@ -17,7 +17,7 @@ module.exports = {
   
     text(
       [
-        // configuration
+        // stimulus configuration
         {
           angle: random.range(-60,60, {round: 1}),
           outline: true,
@@ -52,12 +52,12 @@ module.exports = {
           // this function is expected to return an object with an entry for each interface
           // Interfaces provided by default can be removed by setting the corresponding entry to null
           interfaces: context => {
-            // Override the response buttons to show a canvas rendering the stimulus for each button
+            // Override the response buttons to show a canvas rendering the stimulus for each button.
             // first, configure a canvasRenderer for this purpose:
             let buttonRenderer = canvasRenderer(text.render, {
               dimensions: ["fontSize"],
               intensities: ["outlineIntensity","outline2Intensity"],
-              // make sure to specify width and height
+              // make sure to specify width and height of the canvas in pixels
               width: 100,
               height: 40,
               // each condition received can be adapted to the button by overriding some of its properties
@@ -75,7 +75,7 @@ module.exports = {
                   label: c,
                   response: {text: c},
                   className: c == condition.text ? "correct" : "incorrect",
-                  // the canvasRenderer is used as a subUI of the button
+                  // the canvasRenderer is used as a subUI of the button, which is added after the label
                   subUI: buttonRenderer
                 })
               ),
@@ -91,6 +91,7 @@ module.exports = {
         context => {
           
           // hierarchical set of generators - level 1: confusion category, level 2: set of words, level 3: word
+          // words will be chosen alternating from the two sets, in random order of subset and word
           let wordCategories = random.loop([
             // e-a
             random.loop([
@@ -104,26 +105,6 @@ module.exports = {
               random.loop(["Semato","Senato","Sennato","Sernato"]),
               random.loop(["Kame","Kane","Kanne","Karne"])
             ]),
-            // ff-ll-fl-lf
-            random.loop([
-              random.loop(["Stoffen","Stoflen","Stolfen","Stollen"]),
-              random.loop(["Saffe","Safle","Salfe","Salle"]),
-            ]),
-            // l-f
-            random.loop([
-              random.loop(["Kofifa","Kofila","Kolifa","Kolila"]),
-              random.loop(["fokef","fokel","lokef","lokel"]),
-            ]),
-            // ll-il-li 
-            random.loop([
-              random.loop(["Deila","Delia","Della"]),
-              random.loop(["Monail","Monali","Monall"]),
-            ]),
-            // i-l
-            random.loop([
-              random.loop(["Aiganei","Aiganel","Alganei","Alganel"]),
-            ]),
-            // o-c-e, C-G-O ?
           ])(context);
                     
           return condition => {
