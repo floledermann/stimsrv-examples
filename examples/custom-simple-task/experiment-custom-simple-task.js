@@ -65,24 +65,50 @@ module.exports = {
         }
       `,
     }),
-    
-    // Complex usage, using multiple property specifications.
-    // This can be used to generate more complex conditions,
-    // e.g. multiple fields that depend on one another or choosing from a set of conditions
-    customTextTask(
-      // First argument is an *array* of parameter specifications to construct the condition in multiple steps
-      // Each step may be an object, a generator or a transformation function
-      [
-        // Step 1: Define properties like above
+
+    // Use generateCondition() to add sets of fields that belong together through a generator.
+    // Use transformConditionOnClient() to transform the condition on each client.
+    customTextTask({
+      // Define properties like above
+      name: "task2",
+      description: "This is the second test task.",
+      rotate: random.range(-60,60, {round: 1}),
+      translate: ["3cm","-3cm"],
+      choices: ["a","b"],
+      
+      // Use generateCondition() to modify the condition created from above template
+      // This can be used to apply sets of parameters belonging together through an iterator
+      // or writing your own code to create conditions
+      generateCondition: random.shuffle([
         {
-          name: "task2",
-          description: "This is the second test task.",
-          rotate: random.range(-60,60, {round: 1}),
-          translate: sequence.array([random.range(-3,3, {suffix: "cm"}),random.range(-3,3, {suffix: "cm"})]),
-          choices: ["a","b"],
+          text: "Task 2: Large Text",
+          fontSize: "10mm",
         },
-        // Step 2: Use a generator for conditions composed of multiple dependent properties
-        random.shuffle([
+        {
+          text: "Task 2: Small Text",
+          fontSize: "3mm",
+        }
+      ]),
+      
+      // Use transformConditionOnClient() to transform the condition *on each client*
+      transformConditionOnClient: clientContext => condition => ({ text: condition.text + ", device id: " + clientContext.clientid })
+    }),
+    
+    // Complex usage of generateCondition, combining a generator and custom code.
+    customTextTask({
+      // Define properties like above
+      name: "task3",
+      description: "This is the second test task.",
+      rotate: random.range(-60,60, {round: 1}),
+      translate: sequence.array([random.range(-3,3, {suffix: "cm"}),random.range(-3,3, {suffix: "cm"})]),
+      choices: ["a","b"],
+      
+      // Use generateCondition() to modify the condition created from above template
+      // This can be used to apply sets of parameters belonging together through an iterator
+      // or writing your own code to create conditions
+      generateCondition: context => {
+        // initialize the generator
+        let set = random.shuffle([
           {
             text: "Large Text",
             fontSize: "10mm",
@@ -91,13 +117,22 @@ module.exports = {
             text: "Small Text",
             fontSize: "3mm",
           }
-        ], {multiple: 3}), // repeat each item 3 times
-        // Step 3: Transformation function (invoked on server to transform the condition)
-        context => condition => ({ text: condition.text + " (Task2, dynamic!)" }),
-      ],
-      // Second argument is a transformation function that transforms the condition *on each client*
-      context => condition => ({ text: condition.text + ", device id: " + context.clientid })
-    ),
+        ], {multiple: 3})(context); // repeat each item 3 times
+        
+        return cond => {
+          // Care needs to be taken to hadle generator exhaustion -> return null to end the task
+          let next = set.next();
+          if (next.done) return null;
+          // clone object from generator to avoid modifying the original object!
+          cond = Object.assign({}, next.value);
+          cond.text = "Task 3, dynamic: " + cond.text;
+          return cond;
+        }
+      },
+      
+      // Use transformConditionOnClient() to transform the condition *on each client*
+      transformConditionOnClient: clientContext => condition => ({ text: condition.text + ", device id: " + clientContext.clientid })
+    }),
     
       
     pause({
