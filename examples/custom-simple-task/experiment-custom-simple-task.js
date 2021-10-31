@@ -120,7 +120,7 @@ module.exports = {
         ], {multiple: 3})(context); // repeat each item 3 times
         
         return cond => {
-          // Care needs to be taken to hadle generator exhaustion -> return null to end the task
+          // care needs to be taken to handle generator exhaustion -> return null to end the task
           let next = set.next();
           if (next.done) return null;
           // clone object from generator to avoid modifying the original object!
