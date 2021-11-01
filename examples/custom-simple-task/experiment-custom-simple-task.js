@@ -4,6 +4,8 @@ const random = require("stimsrv/controller/random");
 
 const pause = require("stimsrv/task/pause");
 
+const htmlButtons = require("stimsrv/ui/htmlButtons");
+
 const customTextTask = require("./customSimpleTask.js");
 
 // Example showing how to implement & use a custom task using the simpleTask helper.
@@ -12,7 +14,7 @@ const customTextTask = require("./customSimpleTask.js");
 
 // The simpleTask helper provides a few helpful features for implementing tasks.
 
-// Global reconfiguration of defaults
+// Global configuration of defaults
 customTextTask.defaults({
   backgroundIntensity: 0.8,   // use light grey background by default
   fontFamily: "Orelega One",  // use custom font
@@ -131,7 +133,19 @@ module.exports = {
       },
       
       // Use transformConditionOnClient() to transform the condition *on each client*
-      transformConditionOnClient: clientContext => condition => ({ text: condition.text + ", device id: " + clientContext.clientid })
+      transformConditionOnClient: clientContext => condition => ({ text: condition.text + ", device id: " + clientContext.clientid }),
+      
+      // override response interface with customized ui
+      interfaces: {
+        response: context => htmlButtons({
+          buttons: condition => condition.choices.reverse().map(
+            choice => ({
+              label: choice,
+              response: {text: choice} 
+            })
+          )
+        })
+      },
     }),
     
       
