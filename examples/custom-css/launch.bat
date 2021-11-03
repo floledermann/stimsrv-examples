@@ -1,3 +1,3 @@
-npx stimsrv --open experiment-custom-css.js
+call npx stimsrv --open experiment-custom-css.js
 
 pause

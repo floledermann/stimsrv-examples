@@ -1,3 +1,3 @@
-npx stimsrv --open experiment-pong.js
+call npx stimsrv --open experiment-pong.js
 
 pause
