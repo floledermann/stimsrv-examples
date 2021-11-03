@@ -22,6 +22,7 @@ module.exports = {
   roles: [
     {
       role: "participant",
+      description: "Participant",
       devices: ["anyone"],
       interfaces: ["display", "response"]
     }
@@ -47,8 +48,8 @@ module.exports = {
         return {
           next: (lastCondition, lastResponse, trials) => {
             count++;
-            if (lastResponse && lastResponse.choice == "No") return {done: true};
-            return { value: "Trial " + count + ". Continue?" };
+            if (lastResponse && lastResponse.text == "No") return {done: true};
+            return { value: "Task 2, Trial " + count + ". Continue?" };
           }
         }
       },
@@ -62,7 +63,7 @@ module.exports = {
       fontSize: staircase({
         startValue: "4mm",
         numDown: 1,
-        isResponseCorrect: context => (condition, response) => response.choice == "Yes"
+        isResponseCorrect: context => (condition, response) => response.text == "Yes"
       }),
       choices: ["Yes","No"]
     }),

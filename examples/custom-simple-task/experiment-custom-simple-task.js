@@ -38,6 +38,7 @@ module.exports = {
   roles: [
     {
       role: "participant",
+      description: "Participant",
       devices: ["anyone"],
       interfaces: ["display", "response"]
     }
