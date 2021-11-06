@@ -121,8 +121,7 @@ module.exports = {
           // care needs to be taken to handle generator exhaustion -> return null to end the task
           let next = set.next();
           if (next.done) return null;
-          // clone object from generator to avoid modifying the original object!
-          cond = Object.assign({}, next.value);
+          cond = next.value;
           cond.text = "Task 3, dynamic: " + cond.text;
           return cond;
         }
