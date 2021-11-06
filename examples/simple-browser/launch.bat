@@ -1,3 +1,3 @@
-npx stimsrv --open experiment-simple-browser.js
+call npx stimsrv --open experiment-simple-browser.js
 
 pause

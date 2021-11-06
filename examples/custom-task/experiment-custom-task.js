@@ -126,7 +126,7 @@ module.exports = {
                 buttonEl.textContent = "Next";
                 parent.appendChild(buttonEl);
                 buttonEl.addEventListener("click", () => {
-                  stimsrv.response({}); // empty response object
+                  stimsrv.response({}); // send empty response object
                 });
               },
               render: condition => {

@@ -1,3 +1,3 @@
-npx nodemon -e js --watch . --exec "npx" stimsrv experiment-pong.js
+call npx nodemon -e js --watch . --exec "npx" stimsrv experiment-pong.js
 
 pause

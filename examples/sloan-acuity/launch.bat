@@ -1,3 +1,3 @@
-npx stimsrv --open experiment-sloan.js
+call npx stimsrv --open experiment-sloan.js
 
 pause
